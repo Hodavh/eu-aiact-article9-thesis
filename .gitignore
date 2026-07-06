@@ -1,0 +1,35 @@
+# Data (large; tracked via Zenodo, not git)
+data/synthetic/
+data/validation_sources/
+*.csv
+*.pdf
+*.json
+!prompts/*.json
+!src/**/*.json
+
+# Model weights and caches
+*.pt
+*.pth
+*.ckpt
+models/
+.cache/
+__pycache__/
+*.py[cod]
+
+# Environment
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Keep placeholder files
+!.gitkeep
+!**/__init__.py
