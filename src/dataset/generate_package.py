@@ -7,9 +7,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from schemas import (SEVERITY, LIKELIHOOD, AFFECTED_DIMENSION, AFFECTED_GROUP,
                      RESIDUAL_RISK, ACCEPTABILITY, PERF)
 
-HAZARDS = ["false negative diagnosis", "false positive diagnosis", "image quality failure",
-    "model drift over time", "bias against subgroup", "automation over-reliance",
-    "incorrect risk score", "delayed alert", "data input error", "edge-case misclassification"]
+# each hazard paired with a plausible ISO 14971 severity
+HAZARD_SEVERITY = {
+    "missed cancer diagnosis leading to delayed treatment and disease progression": "critical",
+    "false positive causing unnecessary anxiety and follow-up testing": "minor",
+    "unreadable image producing no result, requiring a repeat scan": "negligible",
+    "performance degradation over time causing missed diagnoses in later patients": "serious",
+    "systematic under-detection in an ethnic subgroup causing missed diagnoses": "serious",
+    "clinician over-trusting an incorrect output and withholding needed care": "critical",
+    "incorrect risk score leading to inappropriate treatment escalation": "serious",
+    "delayed sepsis alert resulting in life-threatening deterioration": "catastrophic",
+    "mislabelled input field producing a wrong patient result": "serious",
+    "rare presentation misclassified as normal, missing acute condition": "critical",
+}
+HAZARDS = list(HAZARD_SEVERITY.keys())
 METRICS = ["sensitivity", "specificity", "auc", "ppv", "npv"]
 HIER_DESC = {
     1: ["redesigned model architecture to eliminate {h}", "improved training data to remove {h}"],
@@ -29,7 +40,7 @@ def make_package(pkg_id, out_dir, n_risks=8):
         risks.append(dict(risk_id=f"R{i+1:03d}", hazard=h,
             affected_dimension=random.choice(AFFECTED_DIMENSION),
             likelihood=random.choice(LIKELIHOOD),
-            severity=random.choice(SEVERITY),
+            severity=HAZARD_SEVERITY[h],
             intended_use_context="clinical decision support",
             mitigable="true",
             affected_group=random.choice(AFFECTED_GROUP)))
