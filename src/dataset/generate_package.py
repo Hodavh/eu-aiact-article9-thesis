@@ -23,7 +23,7 @@ HAZARD_SEVERITY = {
 HAZARDS = list(HAZARD_SEVERITY.keys())
 METRICS = ["sensitivity", "specificity", "auc", "ppv", "npv"]
 HIER_DESC = {
-    1: ["redesigned model architecture to eliminate {h}", "improved training data to remove {h}"],
+    1: ["redesigned model architecture to eliminate {h}", "eliminated {h} through architectural redesign of the model"],
     2: ["added confidence threshold to control {h}", "implemented human-in-loop check for {h}"],
     3: ["warning in user manual about {h}", "training provided to deployers on {h}"],
 }
