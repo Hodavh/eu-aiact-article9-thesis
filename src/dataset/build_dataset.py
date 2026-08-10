@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data" / "synthetic" / "base"
 LABELS = ROOT / "data" / "synthetic" / "labels.json"
 
-def build(n_compliant=100, n_per_violation=20, seed=42):
+def build(n_compliant=300, n_per_violation=60, seed=42):
     random.seed(seed)
     if OUT.exists(): shutil.rmtree(OUT)
     OUT.mkdir(parents=True)
