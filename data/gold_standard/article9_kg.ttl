@@ -1,0 +1,291 @@
+@prefix a9: <http://eu-ai-act.eu/article9#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+a9:EvidenceType a rdfs:Class ;
+    rdfs:label "Compliance evidence type" .
+
+a9:ExternalReference a rdfs:Class ;
+    rdfs:label "Reference to another Article" .
+
+a9:Requirement a rdfs:Class ;
+    rdfs:label "Article 9 requirement" .
+
+a9:R10 a a9:Requirement ;
+    rdfs:label "R10" ;
+    a9:hasCheckType "SEMANTIC" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasHierarchyLevel 1 ;
+    a9:hasObligation "Eliminate or reduce risks through adequate design and development as far as technically feasible" ;
+    a9:hasParagraph 5 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "a" ;
+    a9:hasVerificationLogic "For every mitigation with {hierarchy_level = 1}, the {description} semantically entails elimination or reduction by design" ;
+    a9:references a9:R2,
+        a9:R6 ;
+    a9:requiresSemanticCheck true ;
+    a9:satisfiedBy a9:mitigation_tracker_csv .
+
+a9:R11 a a9:Requirement ;
+    rdfs:label "R11" ;
+    a9:hasCheckType "SEMANTIC" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasHierarchyLevel 2 ;
+    a9:hasObligation "Implement adequate mitigation and control measures for risks that cannot be eliminated" ;
+    a9:hasParagraph 5 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "b" ;
+    a9:hasVerificationLogic "For every mitigation with {hierarchy_level = 2}, the {description} semantically entails mitigation or control of a non-eliminable risk" ;
+    a9:references a9:R6 ;
+    a9:requiresSemanticCheck true ;
+    a9:satisfiedBy a9:mitigation_tracker_csv .
+
+a9:R12 a a9:Requirement ;
+    rdfs:label "R12" ;
+    a9:hasCheckType "SEMANTIC" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasHierarchyLevel 3 ;
+    a9:hasObligation "Provide information and, where appropriate, training to deployers" ;
+    a9:hasParagraph 5 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "c" ;
+    a9:hasVerificationLogic "For every mitigation with {hierarchy_level = 3}, the {description} semantically entails provision of information or training to deployers" ;
+    a9:references a9:Article_13,
+        a9:R6 ;
+    a9:requiresSemanticCheck true ;
+    a9:satisfiedBy a9:mitigation_tracker_csv,
+        a9:system_documentation_pdf .
+
+a9:R14 a a9:Requirement ;
+    rdfs:label "R14" ;
+    a9:hasCheckType "CONDITIONAL" ;
+    a9:hasDeontic "MAY" ;
+    a9:hasObligation "Testing procedures may include testing in real-world conditions" ;
+    a9:hasParagraph 7 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "IF any test record has {real_world = true} THEN validation_protocol.pdf references real-world conditions; ELSE not applicable" ;
+    a9:references a9:Article_60 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:validation_protocol_pdf .
+
+a9:R15 a a9:Requirement ;
+    rdfs:label "R15" ;
+    a9:hasCheckType "CROSS_FILE" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Testing shall be performed throughout development and before placing on market or service, against prior-defined metrics and probabilistic thresholds" ;
+    a9:hasParagraph 8 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "Every {metric_name} in validation_test_results.json has a matching {metric_name, threshold} defined in validation_protocol.pdf and records {measured_value, pass_fail}" ;
+    a9:references a9:R13 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:clinical_validation_study_csv,
+        a9:validation_protocol_pdf,
+        a9:validation_test_results_json .
+
+a9:R16 a a9:Requirement ;
+    rdfs:label "R16" ;
+    a9:hasCheckType "CONDITIONAL+FIELD_VALUE" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Consider whether the system may adversely impact persons under 18 and other vulnerable groups" ;
+    a9:hasParagraph 9 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "clinical_risk_register.csv has >=1 row with {affected_group IN (under_18, vulnerable)} OR system_documentation.pdf {intended_purpose} states such groups out of scope" ;
+    a9:references a9:R1,
+        a9:R13,
+        a9:R2 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:clinical_risk_register_csv,
+        a9:system_documentation_pdf .
+
+a9:R17 a a9:Requirement ;
+    rdfs:label "R17" ;
+    a9:hasCheckType "NONE" ;
+    a9:hasDeontic "MAY" ;
+    a9:hasObligation "Where subject to other Union-law risk processes, paragraphs 1 to 9 may be combined with those procedures" ;
+    a9:hasParagraph 10 ;
+    a9:hasRequirementType "permissive_provision" ;
+    a9:hasVerificationLogic "Not independently verified; node retained for traceability" ;
+    a9:requiresSemanticCheck false .
+
+a9:R4 a a9:Requirement ;
+    rdfs:label "R4" ;
+    a9:hasCheckType "FIELD_PRESENT+EXISTS+SEMANTIC" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Estimate and evaluate risks under intended use and reasonably foreseeable misuse" ;
+    a9:hasParagraph 2 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "b" ;
+    a9:hasVerificationLogic "Every risk row has non-null {likelihood, severity}; AND threat_model.json OR misuse_scenario_analysis.json has >=1 non-null {misuse_scenario}; AND (SEMANTIC) each {harm} description supports its claimed {severity}" ;
+    a9:requiresSemanticCheck true ;
+    a9:satisfiedBy a9:clinical_risk_register_csv,
+        a9:misuse_scenario_analysis_json,
+        a9:threat_model_json .
+
+a9:R5 a a9:Requirement ;
+    rdfs:label "R5" ;
+    a9:hasCheckType "CARDINALITY" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Evaluate other risks arising from post-market monitoring data" ;
+    a9:hasParagraph 2 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "c" ;
+    a9:hasVerificationLogic ">=1 post-market source present with >=1 record" ;
+    a9:references a9:Article_72 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:adverse_event_reports_pdf,
+        a9:model_drift_log_json,
+        a9:post_market_surveillance_csv .
+
+a9:R7 a a9:Requirement ;
+    rdfs:label "R7" ;
+    a9:hasCheckType "FIELD_VALUE" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Risks addressed shall concern only those reasonably mitigable or eliminable through design, development, or technical information" ;
+    a9:hasParagraph 3 ;
+    a9:hasRequirementType "structural_constraint" ;
+    a9:hasVerificationLogic "Every risk with a mitigation link has {mitigable = true}; risks with {mitigable = false} require no mitigation link" ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:clinical_risk_register_csv,
+        a9:mitigation_tracker_csv .
+
+a9:R8 a a9:Requirement ;
+    rdfs:label "R8" ;
+    a9:hasCheckType "LINK" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Risk management measures shall consider combined-requirement effects and interactions to minimise risk with appropriate balance" ;
+    a9:hasParagraph 4 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "Every {mitigation_id} in mitigation_tracker.csv appears in traceability_matrix.csv linked to >=1 requirement" ;
+    a9:references a9:R6 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:mitigation_tracker_csv,
+        a9:traceability_matrix_csv .
+
+a9:R9 a a9:Requirement ;
+    rdfs:label "R9" ;
+    a9:hasCheckType "FIELD_PRESENT+FIELD_VALUE" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Residual risk per hazard and overall residual risk shall be judged acceptable" ;
+    a9:hasParagraph 5 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "chapeau" ;
+    a9:hasVerificationLogic "Every row has non-null {residual_risk, acceptability}; acceptability IN {acceptable, not_acceptable}" ;
+    a9:references a9:R6 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:mitigation_tracker_csv .
+
+a9:Article_13 a a9:ExternalReference ;
+    rdfs:label "Article 13" .
+
+a9:Article_60 a a9:ExternalReference ;
+    rdfs:label "Article 60" .
+
+a9:Article_72 a a9:ExternalReference ;
+    rdfs:label "Article 72" .
+
+a9:R1 a a9:Requirement ;
+    rdfs:label "R1" ;
+    a9:hasCheckType "EXISTS" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "A risk management system shall be established, implemented, documented and maintained for high-risk AI systems" ;
+    a9:hasParagraph 1 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "system_documentation.pdf present AND contains section {risk_management_system}" ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:system_documentation_pdf .
+
+a9:R3 a a9:Requirement ;
+    rdfs:label "R3" ;
+    a9:hasCheckType "FIELD_PRESENT+FIELD_VALUE" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Identify and analyse known and reasonably foreseeable risks to health, safety and fundamental rights under intended use" ;
+    a9:hasParagraph 2 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "a" ;
+    a9:hasVerificationLogic "Every row has non-null {risk_id, hazard, affected_dimension, intended_use_context}; affected_dimension IN {health, safety, fundamental_rights}" ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:clinical_risk_register_csv .
+
+a9:adverse_event_reports_pdf a a9:EvidenceType ;
+    rdfs:label "adverse_event_reports.pdf" .
+
+a9:misuse_scenario_analysis_json a a9:EvidenceType ;
+    rdfs:label "misuse_scenario_analysis.json" .
+
+a9:model_drift_log_json a a9:EvidenceType ;
+    rdfs:label "model_drift_log.json" .
+
+a9:post_market_surveillance_csv a a9:EvidenceType ;
+    rdfs:label "post_market_surveillance.csv" .
+
+a9:regression_testing_record_json a a9:EvidenceType ;
+    rdfs:label "regression_testing_record.json" .
+
+a9:retraining_documentation_json a a9:EvidenceType ;
+    rdfs:label "retraining_documentation.json" .
+
+a9:threat_model_json a a9:EvidenceType ;
+    rdfs:label "threat_model.json" .
+
+a9:traceability_matrix_csv a a9:EvidenceType ;
+    rdfs:label "traceability_matrix.csv" .
+
+a9:R13 a a9:Requirement ;
+    rdfs:label "R13" ;
+    a9:hasCheckType "EXISTS+CARDINALITY" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Test high-risk AI systems to identify the most appropriate risk management measures and ensure consistent performance and compliance" ;
+    a9:hasParagraph 6 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasVerificationLogic "validation_protocol.pdf present AND (clinical_validation_study.csv OR validation_test_results.json) contains >=1 test result row" ;
+    a9:references a9:R6 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:clinical_validation_study_csv,
+        a9:validation_protocol_pdf,
+        a9:validation_test_results_json .
+
+a9:R2 a a9:Requirement ;
+    rdfs:label "R2" ;
+    a9:hasCheckType "CARDINALITY+FIELD_PRESENT" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "The RMS shall be a continuous iterative process run across the entire lifecycle, with regular systematic review and updating" ;
+    a9:hasParagraph 2 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "chapeau" ;
+    a9:hasVerificationLogic "retraining_documentation.json OR regression_testing_record.json contains >=1 event with non-null {event_date, trigger, outcome}" ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:regression_testing_record_json,
+        a9:retraining_documentation_json,
+        a9:system_documentation_pdf .
+
+a9:clinical_validation_study_csv a a9:EvidenceType ;
+    rdfs:label "clinical_validation_study.csv" .
+
+a9:validation_test_results_json a a9:EvidenceType ;
+    rdfs:label "validation_test_results.json" .
+
+a9:validation_protocol_pdf a a9:EvidenceType ;
+    rdfs:label "validation_protocol.pdf" .
+
+a9:clinical_risk_register_csv a a9:EvidenceType ;
+    rdfs:label "clinical_risk_register.csv" .
+
+a9:system_documentation_pdf a a9:EvidenceType ;
+    rdfs:label "system_documentation.pdf" .
+
+a9:R6 a a9:Requirement ;
+    rdfs:label "R6" ;
+    a9:hasCheckType "LINK" ;
+    a9:hasDeontic "SHALL" ;
+    a9:hasObligation "Adopt appropriate and targeted risk management measures addressing the risks identified under 2(a)" ;
+    a9:hasParagraph 2 ;
+    a9:hasRequirementType "verifiable" ;
+    a9:hasSubpoint "d" ;
+    a9:hasVerificationLogic "Every {risk_id} in clinical_risk_register.csv appears as {linked_risk_id} in >=1 row of mitigation_tracker.csv" ;
+    a9:references a9:R3 ;
+    a9:requiresSemanticCheck false ;
+    a9:satisfiedBy a9:mitigation_tracker_csv .
+
+a9:mitigation_tracker_csv a a9:EvidenceType ;
+    rdfs:label "mitigation_tracker.csv" .
+
