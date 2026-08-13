@@ -14,6 +14,10 @@ def _read_json(p):
     try: return json.load(open(p))
     except: return []
 
+def _safe_float(v, default=0.0):
+    try: return float(v)
+    except: return default
+
 def estimate_noise(pkg):
     d=Path(pkg); tf=bf=tr=br=0
     rids={r["risk_id"] for r in _read_csv(d/"clinical_risk_register.csv")}
@@ -43,7 +47,7 @@ def build_graph(pkg, semantic_flags=None):
     for m in mits:
         idx[("mit",m["mitigation_id"])]=len(nodes)
         comp=sum(1 for v in m.values() if v!="")/max(len(m),1)
-        lvl=float(m.get("hierarchy_level") or 0)/3
+        lvl=_safe_float(m.get("hierarchy_level"))/3
         acc=ACC.get(m.get("acceptability",""),0.5)
         sflag=0
         if semantic_flags:

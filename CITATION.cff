@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite it as below."
+title: "A Neuro-Symbolic Framework for Automated EU AI Act Article 9 Compliance Verification"
+authors:
+  - family-names: "Vahedi Sarrigani"
+    given-names: "Hoda"
+    affiliation: "Liverpool John Moores University"
+abstract: >-
+  A three-layer neuro-symbolic framework for automated verification of EU AI Act
+  Article 9 (risk management) compliance for healthcare AI systems. Layer 1
+  extracts the regulation into a SHACL-validated knowledge graph and checks
+  structural completeness; Layer 2 uses an LLM to verify semantic coherence of
+  the mitigation hierarchy and risk severity; Layer 3 is a dual-shield graph
+  neural network classifying compliance under evidence noise, with confidence-
+  based escalation to human review. Evaluated on a synthetic dataset grounded in
+  ISO 14971 and public FDA submissions.
+keywords:
+  - "EU AI Act"
+  - "compliance verification"
+  - "neuro-symbolic AI"
+  - "knowledge graphs"
+  - "graph neural networks"
+  - "SHACL"
+license: MIT
+version: "1.0.0"
+date-released: "2026-09-01"
