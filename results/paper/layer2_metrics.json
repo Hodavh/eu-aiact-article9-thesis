@@ -1,0 +1,12 @@
+{
+  "n_positive": 30,
+  "n_negative": 30,
+  "tp": 30,
+  "fp": 3,
+  "tn": 27,
+  "fn": 0,
+  "detection_rate": 1.0,
+  "precision": 0.909,
+  "recall": 1.0,
+  "f1": 0.952
+}

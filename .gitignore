@@ -1,0 +1,40 @@
+# Synthetic packages are large (~200 MB) and regenerated exactly by the seeded scripts in src/dataset/
+data/synthetic/
+data/validation_sources/
+*.csv
+*.pdf
+*.json
+!prompts/*.json
+!src/**/*.json
+# Paper artefacts that ARE released: results, gold standard, extraction outputs
+!results/**/*.json
+!data/gold_standard/*.csv
+!data/gold_standard/*.json
+!data/article9/*.json
+
+# Model weights and caches
+*.pt
+*.pth
+*.ckpt
+models/
+.cache/
+__pycache__/
+*.py[cod]
+
+# Environment
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Keep placeholder files
+!.gitkeep
+!**/__init__.py

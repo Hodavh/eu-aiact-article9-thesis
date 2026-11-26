@@ -1,0 +1,26 @@
+extracted_idx,paragraph,extracted_obligation,maps_to,category
+1,1,establish a risk management system,R1,match
+2,1,implement a risk management system,R1,decomposition
+3,1,document a risk management system,R1,decomposition
+4,1,maintain a risk management system,R1,decomposition
+5,2,plan and run a continuous iterative process,R2,match
+6,2,require regular systematic review and updating,R2,decomposition
+7,2,identify and analyse known and reasonably foreseeable risks,R3,match
+8,2,estimate and evaluate risks of reasonably foreseeable misuse,R4,match
+9,2,evaluate other risks possibly arising,R5,match
+10,2,adopt appropriate and targeted risk management measures,R6,match
+11,3,concern risks that can be reasonably mitigated or eliminated,R7,match
+12,4,give due consideration to combined effects and interaction,R8,match
+13,5,ensure relevant residual risk is acceptable,R9,match
+14,5,eliminate or reduce risks through design,R10,match
+15,5,implement adequate mitigation and control measures,R11,match
+16,5,provide information pursuant to Article 13,R12,match
+17,6,test high-risk AI systems,R13,match
+18,6,ensure consistent performance,R13,decomposition
+19,6,comply with requirements in this Section,R13,decomposition
+20,7,include testing in real-world conditions,R14,match
+21,8,perform testing of high-risk AI systems,R15,match
+22,8,carry out testing against prior defined metrics and thresholds,R15,decomposition
+23,9,consider adverse impact on under-18 and vulnerable groups,R16,match
+24,9,consider adverse impact on under-18 and vulnerable groups,R16,duplicate
+25,10,incorporate/combine aspects into other Union law procedures,R17,deontic_error

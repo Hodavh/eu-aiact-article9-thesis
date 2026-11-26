@@ -1,0 +1,7 @@
+{
+  "L3_only": 0.733,
+  "L2+L3": 0.767,
+  "full": 0.767,
+  "all_noncompliant_reference": 0.767,
+  "_note": "Reference = accuracy obtained by labelling every test package non-compliant (60 non-compliant + 32 manipulated of 120)."
+}

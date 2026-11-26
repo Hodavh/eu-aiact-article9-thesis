@@ -1,0 +1,88 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix a9:   <http://eu-ai-act.eu/article9#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Shape 1: Every requirement must carry its mandatory metadata
+#################################################################
+a9:RequirementShape a sh:NodeShape ;
+    sh:targetClass a9:Requirement ;
+
+    sh:property [
+        sh:path a9:hasParagraph ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ; sh:maxInclusive 10 ;
+        sh:message "Requirement must have exactly one paragraph in range 1-10." ;
+    ] ;
+
+    sh:property [
+        sh:path a9:hasObligation ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Requirement must have exactly one obligation text." ;
+    ] ;
+
+    sh:property [
+        sh:path a9:hasDeontic ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "SHALL" "MAY" ) ;
+        sh:message "Deontic modality must be exactly one of SHALL or MAY." ;
+    ] ;
+
+    sh:property [
+        sh:path a9:hasRequirementType ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "verifiable" "structural_constraint" "permissive_provision" ) ;
+        sh:message "Requirement type must be verifiable, structural_constraint, or permissive_provision." ;
+    ] ;
+
+    sh:property [
+        sh:path a9:hasCheckType ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "Requirement must have exactly one check type." ;
+    ] ;
+
+    sh:property [
+        sh:path a9:requiresSemanticCheck ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:message "Requirement must declare whether it needs semantic checking (boolean)." ;
+    ] .
+
+#################################################################
+# Shape 2: Verifiable requirements must map to >=1 evidence type
+#################################################################
+a9:VerifiableEvidenceShape a sh:NodeShape ;
+    sh:targetClass a9:Requirement ;
+    sh:sparql [
+        sh:message "A verifiable requirement must be satisfiedBy at least one evidence type." ;
+        sh:prefixes a9: ;
+        sh:select """
+            PREFIX a9: <http://eu-ai-act.eu/article9#>
+            SELECT $this WHERE {
+                $this a9:hasRequirementType "verifiable" .
+                FILTER NOT EXISTS { $this a9:satisfiedBy ?ev }
+            }
+        """ ;
+    ] .
+
+#################################################################
+# Shape 3: Hierarchy levels must be exactly 1, 2, 3 (Article 9(5))
+# Uses SHACL-SPARQL: flags any level outside {1,2,3} or duplicated
+#################################################################
+a9:HierarchyLevelValueShape a sh:NodeShape ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:prefixes a9: ;
+        sh:select """
+            PREFIX a9: <http://eu-ai-act.eu/article9#>
+            SELECT $this WHERE { $this a9:hasHierarchyLevel ?l }
+        """ ;
+    ] ;
+    sh:property [
+        sh:path a9:hasHierarchyLevel ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ; sh:maxInclusive 3 ;
+        sh:message "Mitigation hierarchy level must be 1, 2, or 3." ;
+    ] .
