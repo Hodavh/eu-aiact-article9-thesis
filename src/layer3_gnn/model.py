@@ -40,11 +40,6 @@ class DualShieldGNN(nn.Module):
         self.struct_shield = ShieldChannel(in_dim, hid)
         if fusion == "attention":
             self.att = nn.Linear(hid*2, 2)
-        if fusion == "learned_noise":
-            # learns a mapping from measured [feature_noise, structural_noise] to channel weights,
-            # instead of the fixed (1-noise) relationship. Can learn NOT to over-suppress a
-            # channel that holds unique signal.
-            self.noise_mlp = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 2))
         self.head = nn.Sequential(nn.Linear(hid, hid), nn.ReLU(), nn.Linear(hid, 2))
 
     @staticmethod
@@ -69,14 +64,6 @@ class DualShieldGNN(nn.Module):
         elif self.fusion == "attention":
             a = torch.softmax(self.att(torch.cat([hf,hs],dim=-1)), dim=-1)
             h = a[:,0:1]*hf + a[:,1:2]*hs
-        elif self.fusion == "learned_noise":
-            if self.per_graph_noise:
-                w = torch.softmax(self.noise_mlp(self._graph_noise(data, x)), dim=-1)[batch]
-                h = w[:,0:1]*hf + w[:,1:2]*hs
-            else:  # paper implementation: first graph's noise used for the whole batch
-                noise = data.noise.view(-1,2)[0] if hasattr(data,"noise") else torch.tensor([0.,0.],device=x.device)
-                w = torch.softmax(self.noise_mlp(noise), dim=-1)  # learned weights from measured noise
-                h = w[0]*hf + w[1]*hs
         else:  # noise_aware: weight by MEASURED noise (down-weight the noisier channel)
             if self.per_graph_noise:   # each node uses its own graph's measured noise
                 nf = self._graph_noise(data, x)[batch]

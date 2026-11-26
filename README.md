@@ -29,11 +29,10 @@ The work began as an MSc dissertation at Liverpool John Moores University.
 | `data/gold_standard/` | Gold-standard requirements (`requirements.csv`), the RDF knowledge graph (`article9_kg.ttl`), the LLM extraction output (`llm_extracted.json`) and its alignment to the gold standard (`llm_alignment.csv`) |
 | `shapes/` | SHACL shapes, including the SHACL-SPARQL constraint |
 | `prompts/` | Prompt templates for extraction (Layer 1) and the hierarchy and severity checks (Layer 2) |
-| `src/` | Implementation, organised by layer, plus the dataset generator |
+| `src/` | Implementation, organised by layer (`layer1_kg`, `layer2_semantic`, `layer3_gnn`), the dataset generator (`dataset`), the end-to-end pipeline and the figure script |
 | `results/paper/` | **The result files reported in the paper** |
 | `results/paper_batchfix/` | The same experiments re-run with per-graph noise weighting (see the note below) |
-| `results/supplementary/` | Exploratory runs that are not reported in the paper |
-| `results/figures/` | Figures used in the paper |
+| `results/figures/` | Figures 1–5 as they appear in the paper |
 
 ## Where each result in the paper comes from
 | Paper | Script | Result file (`results/paper/`) |
@@ -102,12 +101,6 @@ python src/make_figures.py
 
 The synthetic packages (about 200 MB) are not stored in git. The generator is seeded, so the
 commands above rebuild the same dataset.
-
-## Exploratory extension (not in the paper)
-`src/dataset/build_nonredundant_dataset.py` and `src/layer3_gnn/experiment_nonredundant.py`
-test fusion on a dataset where each violation is visible in only one channel. They also add
-a `learned_noise` fusion variant. These runs are exploratory and are not reported in the
-paper. Their results are in `results/supplementary/`.
 
 ## Citation
 See `CITATION.cff`. Please cite the paper once it is published.
