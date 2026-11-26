@@ -1,4 +1,4 @@
-"""Firm up the RQ3 headline: feature-heavy noise, 10 seeds per fusion mode."""
+"""Firm up the Sec. 4.3 (fusion) headline: feature-heavy noise, 10 seeds per fusion mode."""
 import json, random, shutil, sys
 from pathlib import Path
 import numpy as np, torch
@@ -39,7 +39,7 @@ def one_run(fusion, seed, epochs=80):
     return c/t
 
 def main():
-    print("RQ3 headline: feature-heavy noise, 10 seeds each\n")
+    print("Sec. 4.3 (fusion) headline: feature-heavy noise, 10 seeds each\n")
     out={}
     for fu in ["static","attention","noise_aware"]:
         accs=[one_run(fu,s) for s in range(10)]

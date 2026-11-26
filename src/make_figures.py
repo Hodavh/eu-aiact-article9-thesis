@@ -1,17 +1,19 @@
-"""Generate publication figures from saved results JSON."""
-import json
+"""Generate the paper's Figures 3-5 (fusion, degradation, ablation) from saved results JSON."""
+import json, sys
 from pathlib import Path
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
-R = ROOT / "results"
+# Default: the result files reported in the paper. Pass another folder to plot fresh runs,
+# e.g. `python src/make_figures.py results` after re-running the experiments.
+R = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "results" / "paper"
 OUT = ROOT / "results" / "figures"
 OUT.mkdir(exist_ok=True)
 
 plt.rcParams.update({"font.size": 11, "figure.dpi": 150,
                      "axes.spines.top": False, "axes.spines.right": False})
 
-# --- Figure 1: Degradation curve (RQ4) ---
+# --- Paper Figure 4: Degradation curve ---
 try:
     deg = json.load(open(R / "layer3_degradation.json"))
     curve = deg["curve"]
@@ -28,14 +30,13 @@ try:
     ax.axhline(0.70, ls="--", color="#c53030", label="Usable threshold (0.70)")
     ax.set_xlabel("Noise level (feature = structure)")
     ax.set_ylabel("Classification accuracy")
-    ax.set_title("Robustness to evidence degradation (RQ4)")
     ax.set_ylim(0.5, 1.0); ax.legend()
     fig.tight_layout(); fig.savefig(OUT / "fig_degradation.png"); plt.close()
     print("Saved fig_degradation.png")
 except Exception as e:
     print("Degradation figure skipped:", e)
 
-# --- Figure 2: Fusion comparison across asymmetry (RQ3) ---
+# --- Paper Figure 3: Fusion comparison across asymmetry ---
 try:
     st = json.load(open(R / "layer3_structured.json"))
     conds = list(st.keys())
@@ -49,14 +50,13 @@ try:
                label=m.replace("_"," "), color=col)
     ax.set_xticks(list(x)); ax.set_xticklabels([labels.get(c,c) for c in conds])
     ax.set_ylabel("Accuracy"); ax.set_ylim(0.5, 0.9)
-    ax.set_title("Fusion strategy under structured noise (RQ3)")
     ax.legend(title="Fusion")
     fig.tight_layout(); fig.savefig(OUT / "fig_fusion.png"); plt.close()
     print("Saved fig_fusion.png")
 except Exception as e:
     print("Fusion figure skipped:", e)
 
-# --- Figure 3: Ablation (RQ5) ---
+# --- Paper Figure 5: Ablation ---
 try:
     ab = json.load(open(R / "ablation.json"))
     cfgs = ["L3_only","L2+L3"]; vals = [ab["L3_only"], ab["L2+L3"]]
@@ -64,7 +64,6 @@ try:
     bars = ax.bar(["Layer 3\nonly","Full\npipeline"], vals, color=["#718096","#2b6cb0"], width=0.6)
     for b, v in zip(bars, vals): ax.text(b.get_x()+b.get_width()/2, v+0.005, f"{v:.3f}", ha="center")
     ax.set_ylabel("Verdict accuracy"); ax.set_ylim(0.6, 0.85)
-    ax.set_title("Ablation: contribution of layers (RQ5)")
     fig.tight_layout(); fig.savefig(OUT / "fig_ablation.png"); plt.close()
     print("Saved fig_ablation.png")
 except Exception as e:

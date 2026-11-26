@@ -1,4 +1,16 @@
-"""Dual-shield GNN with three fusion modes: static, attention, noise-aware."""
+"""Dual-shield GNN with three fusion modes: static, attention, noise-aware.
+
+Noise weighting in mini-batches
+-------------------------------
+The results reported in the paper (results/paper/) were produced with the original
+implementation, in which every graph in a mini-batch used the measured noise of the
+FIRST graph in that batch (per_graph_noise=False, the default here so that the paper's
+numbers reproduce). Setting per_graph_noise=True, or the environment variable
+AIACT_PER_GRAPH_NOISE=1, gives each graph its own measured noise. The corrected runs are
+in results/paper_batchfix/; noise-aware accuracy changes by at most 0.043 and no
+conclusion of the paper changes (see the paper, Section 5).
+"""
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -18,9 +30,12 @@ class ShieldChannel(nn.Module):
 class DualShieldGNN(nn.Module):
     """Two channels (feature + structural shield), fused, then classified.
     fusion in {'static','attention','noise_aware'}."""
-    def __init__(self, in_dim=9, hid=32, fusion="noise_aware"):
+    def __init__(self, in_dim=9, hid=32, fusion="noise_aware", per_graph_noise=None):
         super().__init__()
         self.fusion = fusion
+        if per_graph_noise is None:
+            per_graph_noise = os.environ.get("AIACT_PER_GRAPH_NOISE", "0") == "1"
+        self.per_graph_noise = per_graph_noise
         self.feat_shield = ShieldChannel(in_dim, hid)
         self.struct_shield = ShieldChannel(in_dim, hid)
         if fusion == "attention":
@@ -31,6 +46,15 @@ class DualShieldGNN(nn.Module):
             # channel that holds unique signal.
             self.noise_mlp = nn.Sequential(nn.Linear(2, 16), nn.ReLU(), nn.Linear(16, 2))
         self.head = nn.Sequential(nn.Linear(hid, hid), nn.ReLU(), nn.Linear(hid, 2))
+
+    @staticmethod
+    def _graph_noise(data, x):
+        """Measured [feature_noise, structural_noise] per graph, shape [num_graphs, 2].
+        PyG concatenates the per-graph 2-vectors when batching, so view(-1,2) gives one row per graph."""
+        if hasattr(data, "noise") and data.noise is not None:
+            return data.noise.view(-1, 2).to(x.device)
+        n_graphs = int(data.batch.max().item()) + 1 if getattr(data, "batch", None) is not None else 1
+        return torch.zeros(n_graphs, 2, device=x.device)
 
     def forward(self, data):
         x, ei = data.x, data.edge_index
@@ -46,12 +70,20 @@ class DualShieldGNN(nn.Module):
             a = torch.softmax(self.att(torch.cat([hf,hs],dim=-1)), dim=-1)
             h = a[:,0:1]*hf + a[:,1:2]*hs
         elif self.fusion == "learned_noise":
-            noise = data.noise.view(-1,2)[0] if hasattr(data,"noise") else torch.tensor([0.,0.],device=x.device)
-            w = torch.softmax(self.noise_mlp(noise), dim=-1)  # learned weights from measured noise
-            h = w[0]*hf + w[1]*hs
+            if self.per_graph_noise:
+                w = torch.softmax(self.noise_mlp(self._graph_noise(data, x)), dim=-1)[batch]
+                h = w[:,0:1]*hf + w[:,1:2]*hs
+            else:  # paper implementation: first graph's noise used for the whole batch
+                noise = data.noise.view(-1,2)[0] if hasattr(data,"noise") else torch.tensor([0.,0.],device=x.device)
+                w = torch.softmax(self.noise_mlp(noise), dim=-1)  # learned weights from measured noise
+                h = w[0]*hf + w[1]*hs
         else:  # noise_aware: weight by MEASURED noise (down-weight the noisier channel)
-            noise = data.noise.view(-1,2)[0] if hasattr(data,"noise") else torch.tensor([0.,0.],device=x.device)
-            fn, sn = noise[0], noise[1]
+            if self.per_graph_noise:   # each node uses its own graph's measured noise
+                nf = self._graph_noise(data, x)[batch]
+                fn, sn = nf[:,0:1], nf[:,1:2]
+            else:  # paper implementation: first graph's noise used for the whole batch
+                noise = data.noise.view(-1,2)[0] if hasattr(data,"noise") else torch.tensor([0.,0.],device=x.device)
+                fn, sn = noise[0], noise[1]
             # channel reliability = 1 - its noise; feature channel trusts features, struct trusts structure
             wf = (1-fn); ws = (1-sn)
             tot = wf+ws+1e-6

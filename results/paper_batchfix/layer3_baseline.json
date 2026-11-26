@@ -1,0 +1,10 @@
+{
+  "single_channel": {
+    "mean": 0.83,
+    "std": 0.034
+  },
+  "dual_shield": {
+    "mean": 0.778,
+    "std": 0.037
+  }
+}

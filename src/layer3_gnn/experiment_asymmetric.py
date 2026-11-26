@@ -1,4 +1,4 @@
-"""RQ3 (correct framing): fusion modes under symmetric vs asymmetric noise."""
+"""Sec. 4.3 (fusion) (correct framing): fusion modes under symmetric vs asymmetric noise."""
 import json, random, shutil, sys
 from pathlib import Path
 import numpy as np, torch

@@ -1,5 +1,5 @@
 """
-Layer 1 extraction evaluation (RQ1).
+Layer 1 extraction evaluation (Sec. 4.1).
 Compares LLM-extracted requirements against the gold standard,
 distinguishing genuine errors from legitimate decomposition-granularity
 differences.
@@ -67,7 +67,7 @@ def main():
     json.dump(results, open(OUT, "w"), indent=2)
 
     print("=" * 55)
-    print("LAYER 1 EXTRACTION EVALUATION (RQ1)")
+    print("LAYER 1 EXTRACTION EVALUATION (Sec. 4.1)")
     print("=" * 55)
     print(f"Gold-standard requirements:     {n_gold}")
     print(f"LLM-extracted items:            {n_extracted}")

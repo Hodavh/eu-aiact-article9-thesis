@@ -1,59 +1,116 @@
-# Automated Compliance Verification for EU AI Act Article 9
+# Automated Compliance Verification for EU AI Act Article 9: A Three-Layer Neuro-Symbolic Framework
 
-A three-layer neuro-symbolic framework for verifying EU AI Act Article 9
-compliance evidence: a validated regulatory knowledge graph, LLM-based
-semantic verification, and a noise-robust dual-shield graph neural network.
-MSc Dissertation, Liverpool John Moores University.
+Code, data and results for the paper
 
-## Structure
-- `data/`         legal text, gold standard, validation sources, synthetic packages
-- `src/`          implementation, organised by layer
-- `shapes/`       SHACL constraint shapes (Layer 1)
-- `prompts/`      LLM prompt templates (Layers 1 and 2)
-- `experiments/`  experiment scripts and configs
-- `results/`      metrics, tables, figures
-- `notebooks/`    exploratory and demo notebooks
-- `tests/`        unit and integration tests
+> H. Vahedi Sarrigani and G. M. Lee, "Automated Compliance Verification for EU AI Act
+> Article 9: A Three-Layer Neuro-Symbolic Framework", submitted to *Applied Sciences* (MDPI), 2026.
+
+The framework verifies Article 9 (risk management) compliance evidence for healthcare AI:
+
+- **Layer 1** extracts Article 9 into a knowledge graph with a local LLM and validates it with SHACL.
+- **Layer 2** uses the same LLM to check that a mitigation's description fits its claimed
+  risk-control level, and that a severity fits the described harm.
+- **Layer 3** classifies each evidence package with a dual-shield graph neural network. It
+  compares static, attention and the proposed noise-aware fusion, and defers uncertain cases
+  to human review.
+
+The work began as an MSc dissertation at Liverpool John Moores University.
+
+## Authors
+- Hoda Vahedi Sarrigani: School of Computer Science and Mathematics, Liverpool John Moores
+  University, UK; UrbanChain Ltd, Manchester, UK
+- Gyu Myoung Lee (corresponding author): School of Computer Science and Mathematics,
+  Liverpool John Moores University, UK
+
+## Repository structure
+| Path | Contents |
+|---|---|
+| `data/article9/` | Verbatim text of Article 9, split by paragraph |
+| `data/gold_standard/` | Gold-standard requirements (`requirements.csv`), the RDF knowledge graph (`article9_kg.ttl`), the LLM extraction output (`llm_extracted.json`) and its alignment to the gold standard (`llm_alignment.csv`) |
+| `shapes/` | SHACL shapes, including the SHACL-SPARQL constraint |
+| `prompts/` | Prompt templates for extraction (Layer 1) and the hierarchy and severity checks (Layer 2) |
+| `src/` | Implementation, organised by layer, plus the dataset generator |
+| `results/paper/` | **The result files reported in the paper** |
+| `results/paper_batchfix/` | The same experiments re-run with per-graph noise weighting (see the note below) |
+| `results/supplementary/` | Exploratory runs that are not reported in the paper |
+| `results/figures/` | Figures used in the paper |
+
+## Where each result in the paper comes from
+| Paper | Script | Result file (`results/paper/`) |
+|---|---|---|
+| Sec. 4.1, Tables 6–7 (extraction) | `src/layer1_kg/extract_llm.py`, `src/layer1_kg/evaluate_extraction.py` | `layer1_extraction_metrics.json` |
+| Sec. 4.1, Table 8 (SHACL benchmark) | `src/layer1_kg/shacl_detection_benchmark.py` | `layer1_shacl_detection.json` |
+| Sec. 4.2, Table 9 (semantic layer) | `src/layer2_semantic/evaluate.py` | `layer2_metrics.json` |
+| Sec. 4.3, Table 10 "Structured" rows, Figure 3 | `src/layer3_gnn/experiment_diffuse.py` | `layer3_structured.json` |
+| Sec. 4.3, Table 10 "Earlier run" rows | `src/layer3_gnn/experiment_diffuse.py`, run before the structured noise model was introduced | `layer3_diffuse.json` |
+| Sec. 4.3, single-channel baseline | `src/layer3_gnn/baseline.py` | `layer3_baseline.json` |
+| Sec. 4.3, confidence and deferral | `src/layer3_gnn/confidence.py` (prints the counts) | – |
+| Sec. 4.4, Table 11, Figure 4 | `src/layer3_gnn/experiment_degradation.py` | `layer3_degradation.json` |
+| Sec. 4.5, Table 12, Figure 5 | `src/experiment_ablation.py` | `ablation.json` |
+| Figures 3–5 | `src/make_figures.py` | reads `results/paper/` by default |
+
+Experiment scripts write new runs to `results/`, so the files in `results/paper/` are never
+overwritten. To plot a fresh run, use `python src/make_figures.py results`.
+
+### Note on noise weighting in mini-batches (paper, Sec. 5)
+In the implementation used for the paper, each mini-batch used the measured noise of its
+first graph for every graph in the batch. `DualShieldGNN` still does this by default, so the
+paper's numbers can be reproduced. Pass `per_graph_noise=True`, or set
+`AIACT_PER_GRAPH_NOISE=1`, to give each graph its own measured noise. With per-graph
+weighting, noise-aware accuracy changes by at most 0.043 (`results/paper_batchfix/`), and no
+conclusion of the paper changes.
 
 ## Reproduction
 
-Environment (conda):
-
+```bash
 conda env create -f environment.yml
 conda activate aiact
+```
 
+Layers 1 and 2 need a local Qwen2.5-7B-Instruct model, loaded through Hugging Face
+Transformers. No external API is used. A GPU is recommended; the experiments were developed
+on an RTX 4090 with CUDA 12.1.
 
-Reproduce the results by layer:
-Layer 1: extraction + SHACL detection (RQ1)
+```bash
+# Synthetic dataset (seeded; regenerates the 600-package base set and labels)
+python src/dataset/build_dataset.py
+python src/dataset/add_requirement_labels.py
+python src/dataset/build_diffuse_dataset.py      # 600-package diffuse-violation set
 
+# Layer 1 (Sec. 4.1)
+python src/layer1_kg/build_kg.py
+python src/layer1_kg/extract_llm.py
 python src/layer1_kg/evaluate_extraction.py
 python src/layer1_kg/shacl_detection_benchmark.py
 
-Dataset generation (seeded, reproducible)
-
-python src/dataset/build_dataset.py
-python src/dataset/add_requirement_labels.py
-
-Layer 2: semantic verification (RQ5)
-
+# Layer 2 (Sec. 4.2)
 python src/layer2_semantic/evaluate.py
 
-Layer 3: fusion comparison under structured noise (RQ3, RQ4)
-
+# Layer 3 (Secs. 4.3-4.4)
 python src/layer3_gnn/experiment_diffuse.py
 python src/layer3_gnn/baseline.py
+python src/layer3_gnn/confidence.py
+python src/layer3_gnn/experiment_degradation.py
 
-End-to-end pipeline
-
+# Ablation and end-to-end pipeline (Sec. 4.5)
+python src/experiment_ablation.py
 python src/pipeline.py
 
+# Figures 3-5
+python src/make_figures.py
+```
 
-Results are written to `results/`. A local Qwen2.5-7B-Instruct model
-(via Hugging Face Transformers) is required for Layers 1 and 2; no external
-API is used. GPU recommended (developed on RTX 4090).
+The synthetic packages (about 200 MB) are not stored in git. The generator is seeded, so the
+commands above rebuild the same dataset.
 
-## Status
-Complete. MSc dissertation submission, 2026.
+## Exploratory extension (not in the paper)
+`src/dataset/build_nonredundant_dataset.py` and `src/layer3_gnn/experiment_nonredundant.py`
+test fusion on a dataset where each violation is visible in only one channel. They also add
+a `learned_noise` fusion variant. These runs are exploratory and are not reported in the
+paper. Their results are in `results/supplementary/`.
+
+## Citation
+See `CITATION.cff`. Please cite the paper once it is published.
 
 ## Licence
-Code: MIT (see LICENSE). Data and documentation: CC-BY-4.0.
+Code: MIT (see `LICENSE`). Data and documentation: CC BY 4.0.

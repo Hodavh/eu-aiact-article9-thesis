@@ -1,4 +1,4 @@
-"""RQ5: ablation. Full 3-layer pipeline vs reduced configurations.
+"""Sec. 4.5 (ablation): ablation. Full 3-layer pipeline vs reduced configurations.
 Verdict accuracy on packages that include BOTH structural/violation defects
 AND semantic manipulations, so each layer has something to contribute."""
 import json, random, shutil, sys
@@ -72,7 +72,7 @@ def main():
         else:
             items.append((BASE/pid,true,False))
 
-    print("RQ5 ablation: verdict accuracy by configuration\n")
+    print("Sec. 4.5 (ablation) ablation: verdict accuracy by configuration\n")
     r=evaluate_configs(items,model)
     for cfg in ["L3_only","L2+L3","full"]:
         print(f"  {cfg:10} accuracy = {r[cfg]:.3f}")

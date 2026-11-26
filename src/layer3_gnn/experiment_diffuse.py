@@ -1,4 +1,4 @@
-"""RQ3 on the DIFFUSE dataset: attention vs noise-aware across asymmetry.
+"""Sec. 4.3 (fusion) on the DIFFUSE dataset: attention vs noise-aware across asymmetry.
 Diffuse violations require aggregating signal across nodes + both channels."""
 import json, random, shutil, sys
 from pathlib import Path

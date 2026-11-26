@@ -1,0 +1,58 @@
+{
+  "total_violations_tested": 10,
+  "detected": 10,
+  "missed": 0,
+  "detection_rate": 1.0,
+  "violations": [
+    {
+      "violation": "missing_paragraph",
+      "description": "R3 stripped of its paragraph",
+      "detected": true
+    },
+    {
+      "violation": "missing_obligation",
+      "description": "R4 stripped of obligation text",
+      "detected": true
+    },
+    {
+      "violation": "missing_deontic",
+      "description": "R5 stripped of deontic modality",
+      "detected": true
+    },
+    {
+      "violation": "missing_reqtype",
+      "description": "R6 stripped of requirement type",
+      "detected": true
+    },
+    {
+      "violation": "missing_semantic_flag",
+      "description": "R8 stripped of semantic-check flag",
+      "detected": true
+    },
+    {
+      "violation": "bad_deontic_value",
+      "description": "R7 deontic set to illegal MUST",
+      "detected": true
+    },
+    {
+      "violation": "bad_reqtype_value",
+      "description": "R9 requirement type set to illegal 'optional'",
+      "detected": true
+    },
+    {
+      "violation": "paragraph_out_of_range",
+      "description": "R1 paragraph set to 15 (>10)",
+      "detected": true
+    },
+    {
+      "violation": "hierarchy_out_of_range",
+      "description": "R11 hierarchy level set to 5",
+      "detected": true
+    },
+    {
+      "violation": "verifiable_no_evidence",
+      "description": "R13 (verifiable) stripped of all evidence links",
+      "detected": true
+    }
+  ]
+}

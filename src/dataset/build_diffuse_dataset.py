@@ -1,4 +1,4 @@
-"""Build a balanced diffuse-violation dataset for RQ3."""
+"""Build a balanced diffuse-violation dataset for Sec. 4.3 (fusion)."""
 import json, shutil, random, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))

@@ -1,4 +1,4 @@
-"""RQ3 with 5-fold cross-validation: fair, low-variance fusion comparison.
+"""Sec. 4.3 (fusion) with 5-fold cross-validation: fair, low-variance fusion comparison.
 Each fusion mode is evaluated on identical folds under each noise regime."""
 import json, random, shutil, sys
 from pathlib import Path

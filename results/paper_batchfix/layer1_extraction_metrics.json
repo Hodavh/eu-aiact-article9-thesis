@@ -1,0 +1,19 @@
+{
+  "gold_requirements": 17,
+  "extracted_items": 25,
+  "gold_covered": 17,
+  "missing": [],
+  "completeness_recall": 1.0,
+  "category_breakdown": {
+    "match": 16,
+    "decomposition_granularity": 7,
+    "duplicate_error": 1,
+    "deontic_error": 1,
+    "spurious_error": 0
+  },
+  "genuine_errors": 2,
+  "precision_strict": 0.64,
+  "precision_adjusted": 0.92,
+  "f1_strict": 0.78,
+  "f1_adjusted": 0.958
+}

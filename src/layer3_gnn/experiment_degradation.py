@@ -1,4 +1,4 @@
-"""RQ4: degradation curve. Accuracy vs increasing noise; identify usable-reliability threshold."""
+"""Sec. 4.4 (degradation): degradation curve. Accuracy vs increasing noise; identify usable-reliability threshold."""
 import json, random, shutil, sys
 from pathlib import Path
 import numpy as np, torch
@@ -47,7 +47,7 @@ def train_eval(tr,te,seed=0,epochs=120):
 
 def main():
     curve={}; threshold_crossed=None
-    print(f"RQ4: degradation curve (usable threshold = {THRESHOLD})\n")
+    print(f"Sec. 4.4 (degradation): degradation curve (usable threshold = {THRESHOLD})\n")
     print(f"{'noise':>7} {'accuracy':>12}")
     for lv in LEVELS:
         data=build_all(lv)

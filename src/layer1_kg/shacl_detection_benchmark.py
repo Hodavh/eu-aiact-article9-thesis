@@ -1,5 +1,5 @@
 """
-SHACL detection-rate benchmark (RQ1).
+SHACL detection-rate benchmark (Sec. 4.1).
 Injects a range of known violations into copies of the gold-standard graph,
 runs SHACL on each, and computes the detection rate.
 """

@@ -1,0 +1,34 @@
+{
+  "symmetric_30_30": {
+    "static": 0.75,
+    "attention": 0.755,
+    "noise_aware": 0.752,
+    "static_std": 0.051,
+    "attention_std": 0.051,
+    "noise_aware_std": 0.053
+  },
+  "asym_20_10": {
+    "static": 0.773,
+    "attention": 0.788,
+    "noise_aware": 0.795,
+    "static_std": 0.04,
+    "attention_std": 0.03,
+    "noise_aware_std": 0.051
+  },
+  "asym_50_10": {
+    "static": 0.69,
+    "attention": 0.705,
+    "noise_aware": 0.708,
+    "static_std": 0.048,
+    "attention_std": 0.035,
+    "noise_aware_std": 0.038
+  },
+  "asym_70_10": {
+    "static": 0.602,
+    "attention": 0.623,
+    "noise_aware": 0.62,
+    "static_std": 0.027,
+    "attention_std": 0.036,
+    "noise_aware_std": 0.015
+  }
+}

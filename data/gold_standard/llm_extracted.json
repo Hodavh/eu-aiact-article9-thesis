@@ -1,0 +1,202 @@
+[
+  {
+    "obligation": "establish a risk management system",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 1
+  },
+  {
+    "obligation": "implement a risk management system",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 1
+  },
+  {
+    "obligation": "document a risk management system",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 1
+  },
+  {
+    "obligation": "maintain a risk management system",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 1
+  },
+  {
+    "obligation": "plan and run a continuous iterative process",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 2
+  },
+  {
+    "obligation": "require regular systematic review and updating",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 2
+  },
+  {
+    "obligation": "identify and analyze known and reasonably foreseeable risks",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "when the high-risk AI system is used in accordance with its intended purpose",
+    "subpoint": "a",
+    "paragraph": 2
+  },
+  {
+    "obligation": "estimate and evaluate risks of reasonably foreseeable misuse",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "when the high-risk AI system is used in accordance with its intended purpose",
+    "subpoint": "b",
+    "paragraph": 2
+  },
+  {
+    "obligation": "evaluate other risks possibly arising",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "based on the analysis of data gathered from the post-market monitoring system referred to in Article 72",
+    "subpoint": "c",
+    "paragraph": 2
+  },
+  {
+    "obligation": "adopt appropriate and targeted risk management measures",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "designed to address the risks identified pursuant to point (a)",
+    "subpoint": "d",
+    "paragraph": 2
+  },
+  {
+    "obligation": "concern risks that can be reasonably mitigated or eliminated",
+    "deontic": "SHALL",
+    "subject": "",
+    "conditions": "through the development or design of the high-risk AI system, or the provision of adequate technical information",
+    "subpoint": "",
+    "paragraph": 3
+  },
+  {
+    "obligation": "give due consideration to the effects and possible interaction resulting from the combined application of the requirements set out in this Section",
+    "deontic": "SHALL",
+    "subject": "the risk management measures",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 4
+  },
+  {
+    "obligation": "ensure that the relevant residual risk associated with each hazard, as well as the overall residual risk of the high-risk AI systems is judged to be acceptable",
+    "deontic": "SHALL",
+    "subject": "",
+    "conditions": "",
+    "subpoint": "chapeau",
+    "paragraph": 5
+  },
+  {
+    "obligation": "eliminate or reduce risks identified and evaluated pursuant to paragraph 2 in as far as technically feasible through adequate design and development of the high-risk AI system",
+    "deontic": "SHALL",
+    "subject": "",
+    "conditions": "where appropriate",
+    "subpoint": "a",
+    "paragraph": 5
+  },
+  {
+    "obligation": "implement adequate mitigation and control measures addressing risks that cannot be eliminated",
+    "deontic": "SHALL",
+    "subject": "",
+    "conditions": "where appropriate",
+    "subpoint": "b",
+    "paragraph": 5
+  },
+  {
+    "obligation": "provide information required pursuant to Article 13 and, where appropriate, training to deployers",
+    "deontic": "SHALL",
+    "subject": "",
+    "conditions": "",
+    "subpoint": "c",
+    "paragraph": 5
+  },
+  {
+    "obligation": "test high-risk AI systems",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "for the purpose of identifying the most appropriate and targeted risk management measures",
+    "subpoint": "",
+    "paragraph": 6
+  },
+  {
+    "obligation": "ensure consistent performance of high-risk AI systems",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "for their intended purpose",
+    "subpoint": "",
+    "paragraph": 6
+  },
+  {
+    "obligation": "comply with requirements set out in this Section",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "",
+    "subpoint": "",
+    "paragraph": 6
+  },
+  {
+    "obligation": "include testing in real-world conditions",
+    "deontic": "MAY",
+    "subject": "",
+    "conditions": "",
+    "subpoint": "",
+    "paragraph": 7
+  },
+  {
+    "obligation": "perform testing of high-risk AI systems",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "at any time throughout the development process, and, in any event, prior to their being placed on the market or put into service",
+    "subpoint": "",
+    "paragraph": 8
+  },
+  {
+    "obligation": "carry out testing against prior defined metrics and probabilistic thresholds",
+    "deontic": "SHALL",
+    "subject": "provider",
+    "conditions": "appropriate to the intended purpose of the high-risk AI system",
+    "subpoint": "",
+    "paragraph": 8
+  },
+  {
+    "obligation": "give consideration to whether the high-risk AI system is likely to have an adverse impact on persons under the age of 18",
+    "deontic": "SHALL",
+    "subject": "providers",
+    "conditions": "in view of its intended purpose",
+    "subpoint": "chapeau",
+    "paragraph": 9
+  },
+  {
+    "obligation": "give consideration to whether the high-risk AI system is likely to have an adverse impact on other vulnerable groups",
+    "deontic": "SHALL",
+    "subject": "providers",
+    "conditions": "as appropriate",
+    "subpoint": "chapeau",
+    "paragraph": 9
+  },
+  {
+    "obligation": "incorporate aspects provided in paragraphs 1 to 9 into, or combine them with, the risk management procedures established pursuant to other relevant provisions of Union law",
+    "deontic": "SHALL",
+    "subject": "providers of high-risk AI systems",
+    "conditions": "",
+    "subpoint": "",
+    "paragraph": 10
+  }
+]

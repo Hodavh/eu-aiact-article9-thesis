@@ -1,4 +1,4 @@
-"""RQ3: compare fusion modes over multiple runs (mean +/- std)."""
+"""Sec. 4.3 (fusion): compare fusion modes over multiple runs (mean +/- std)."""
 import json, random, shutil, sys
 from pathlib import Path
 import numpy as np, torch
@@ -40,7 +40,7 @@ def one_run(fusion, seed, epochs=80):
     return c/t
 
 def main():
-    print("RQ3: fusion comparison, 5 runs each\n")
+    print("Sec. 4.3 (fusion): fusion comparison, 5 runs each\n")
     res={}
     for fu in ["static","attention","noise_aware"]:
         accs=[one_run(fu,s) for s in range(5)]

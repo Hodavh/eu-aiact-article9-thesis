@@ -1,0 +1,14 @@
+{
+  "extreme_feature": {
+    "single": 0.842,
+    "single_std": 0.028,
+    "dual": 0.807,
+    "dual_std": 0.024
+  },
+  "extreme_struct": {
+    "single": 0.938,
+    "single_std": 0.011,
+    "dual": 0.942,
+    "dual_std": 0.012
+  }
+}
